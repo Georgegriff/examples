@@ -1,0 +1,22 @@
+product: 1.0.0
+
+info:
+  name: hello-world
+  version: 1.0.0
+  title: hello-world
+
+visibility:
+  view:
+    type: public
+  subscribe:
+    type: authenticated
+
+apis:
+  widgets:
+    $ref: ./widgets.yaml
+
+plans:
+    trial:
+        apis:
+          $ref: ./widgets.yaml
+

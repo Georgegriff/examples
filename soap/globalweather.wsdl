@@ -1,0 +1,248 @@
+<definitions 
+    xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+    xmlns:tns="http://www.webserviceX.NET" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    targetNamespace="http://www.webserviceX.NET">
+
+  <types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">
+      <xs:element name="GetWeather">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CityName"
+                       type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="CountryName"
+                       type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetWeatherResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetWeatherResult"
+                       type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCitiesByCountry">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CountryName"
+                       type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCitiesByCountryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1"
+                       name="GetCitiesByCountryResult" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="string" nillable="true" type="xs:string" />
+    </xs:schema>
+  </types>
+
+  <message name="GetWeatherSoapIn">
+    <part name="parameters" element="tns:GetWeather" />
+  </message>
+  <message name="GetWeatherSoapOut">
+    <part name="parameters" element="tns:GetWeatherResponse" />
+  </message>
+  <message name="GetCitiesByCountrySoapIn">
+    <part name="parameters" element="tns:GetCitiesByCountry" />
+  </message>
+  <message name="GetCitiesByCountrySoapOut">
+    <part name="parameters" element="tns:GetCitiesByCountryResponse" />
+  </message>
+  <message name="GetWeatherHttpGetIn">
+    <part name="CityName" type="xs:string" />
+    <part name="CountryName" type="xs:string" />
+  </message>
+  <message name="GetWeatherHttpGetOut">
+    <part name="Body" element="tns:string" />
+  </message>
+  <message name="GetCitiesByCountryHttpGetIn">
+    <part name="CountryName" type="xs:string" />
+  </message>
+  <message name="GetCitiesByCountryHttpGetOut">
+    <part name="Body" element="tns:string" />
+  </message>
+  <message name="GetWeatherHttpPostIn">
+    <part name="CityName" type="xs:string" />
+    <part name="CountryName" type="xs:string" />
+  </message>
+  <message name="GetWeatherHttpPostOut">
+    <part name="Body" element="tns:string" />
+  </message>
+  <message name="GetCitiesByCountryHttpPostIn">
+    <part name="CountryName" type="xs:string" />
+  </message>
+  <message name="GetCitiesByCountryHttpPostOut">
+    <part name="Body" element="tns:string" />
+  </message>
+
+  <portType name="GlobalWeatherSoap">
+    <operation name="GetWeather">
+      <documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+        Get weather report for all major cities around the world.
+      </documentation>
+      <input message="tns:GetWeatherSoapIn" />
+      <output message="tns:GetWeatherSoapOut" />
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all major
+      cities by country name(full / part).</documentation>
+      <input message="tns:GetCitiesByCountrySoapIn" />
+      <output message="tns:GetCitiesByCountrySoapOut" />
+    </operation>
+  </portType>
+
+  <portType name="GlobalWeatherHttpGet">
+    <operation name="GetWeather">
+      <documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+        Get weather report for all major cities around the world.
+      </documentation>
+      <input message="tns:GetWeatherHttpGetIn" />
+      <output message="tns:GetWeatherHttpGetOut" />
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all major
+      cities by country name(full / part).</documentation>
+      <input message="tns:GetCitiesByCountryHttpGetIn" />
+      <output message="tns:GetCitiesByCountryHttpGetOut" />
+    </operation>
+  </portType>
+
+  <portType name="GlobalWeatherHttpPost">
+    <operation name="GetWeather">
+      <documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+        Get weather report for all major cities around the world.
+      </documentation>
+      <input message="tns:GetWeatherHttpPostIn" />
+      <output message="tns:GetWeatherHttpPostOut" />
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all major
+      cities by country name(full / part).</documentation>
+      <input message="tns:GetCitiesByCountryHttpPostIn" />
+      <output message="tns:GetCitiesByCountryHttpPostOut" />
+    </operation>
+  </portType>
+
+  <binding name="GlobalWeatherSoap" type="tns:GlobalWeatherSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetWeather">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetWeather"
+                      style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetCitiesByCountry"
+                      style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+
+  <binding name="GlobalWeatherSoap12" type="tns:GlobalWeatherSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetWeather">
+      <soap12:operation soapAction="http://www.webserviceX.NET/GetWeather"
+                        style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <soap12:operation soapAction="http://www.webserviceX.NET/GetCitiesByCountry"
+                        style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+
+  <binding name="GlobalWeatherHttpGet" type="tns:GlobalWeatherHttpGet">
+    <http:binding verb="GET" />
+    <operation name="GetWeather">
+      <http:operation location="/GetWeather" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <http:operation location="/GetCitiesByCountry" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+
+  <binding name="GlobalWeatherHttpPost" type="tns:GlobalWeatherHttpPost">
+    <http:binding verb="POST" />
+    <operation name="GetWeather">
+      <http:operation location="/GetWeather" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetCitiesByCountry">
+      <http:operation location="/GetCitiesByCountry" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+
+  <service name="GlobalWeather">
+    <port name="GlobalWeatherSoap" binding="tns:GlobalWeatherSoap">
+      <soap:address location="http://www.webservicex.com/globalweather.asmx" />
+    </port>
+    <port name="GlobalWeatherSoap12" binding="tns:GlobalWeatherSoap12">
+      <soap12:address location="http://www.webservicex.com/globalweather.asmx" />
+    </port>
+    <port name="GlobalWeatherHttpGet" binding="tns:GlobalWeatherHttpGet">
+      <http:address location="http://www.webservicex.com/globalweather.asmx" />
+    </port>
+    <port name="GlobalWeatherHttpPost" binding="tns:GlobalWeatherHttpPost">
+      <http:address location="http://www.webservicex.com/globalweather.asmx" />
+    </port>
+  </service>
+
+</definitions>

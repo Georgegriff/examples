@@ -1,0 +1,23 @@
+product: 1.0.0
+info:
+  name: climbon-company-demo
+  title: climbon-company-demo
+  version: 1.0.0
+apis:
+  - $ref: ./climbon-company-demo-api.yaml
+visibility:
+  view:
+    enabled: true
+    type: public
+  subscribe:
+    enabled: true
+    type: authenticated
+plans:
+  default:
+    title: Default Plan
+    apis:
+      - $ref: ./climbon-company-demo-api.yaml
+    approval: false
+    rate-limit:
+      value: 100/hour
+      hard-limit: false

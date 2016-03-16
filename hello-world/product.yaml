@@ -1,0 +1,10 @@
+product: 1.0.0
+
+info:
+  name: hello-world
+  version: 1.0.0
+  title: hello-world
+
+apis:
+  hello-world:
+    $ref: ./api.yaml

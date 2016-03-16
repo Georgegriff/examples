@@ -1,0 +1,16 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "main": "",
+  "scripts": {
+    "start": "node .",
+    "pretest": "jshint ."
+  },
+  "dependencies": {
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "description": "hello-world"
+}

@@ -1,0 +1,345 @@
+
+basePath: "/api"
+definitions:
+  message:
+    additionalProperties: false
+    properties:
+      text: string
+info:
+  title: "basic loopback api"
+  version: "1.0.0"
+  x-ibm-name: "widgets"
+schemes:
+  - "https"
+swagger: "2.0"
+x-ibm-configuration:
+  gateway: api-connect-gateway
+  properties:
+    loopback-url:
+      value: http://localhost:3000
+      description: The target application URL
+      hidden: false
+  catalogs:
+    local:
+      properties:
+        loopback-url: http://localhost:3001
+  assembly:
+    execute:
+      - switch:
+          title: switch
+          case:
+            - expression: $(operation.verb) === 'get';
+              execute: 
+                - map:
+                  inputs:
+                    - in: 
+                        variable: message.body
+                        schema:
+                          Widget:
+                            properties:
+                              name:
+                                type: string
+                              price:
+                                type: number
+                                format: double
+                              id:
+                                type: number
+                                format: double
+                  outputs:
+                    - out:
+                        variable: message.body
+                        schema:
+                          SimpleWidget: # Like a widget, but with no id
+                            properties:
+                              name:
+                                type: string
+                              price:
+                                type: number
+                                format: double
+                  actions:
+                    - set: out.name
+                      from: in.name
+                    - set: out.price
+                      from: in.price
+      - invoke:
+        target-url: '$(loopback-url)'
+securityDefinitions:
+  basic:
+    type: basic
+    description: 'File-based authentication'
+    x-ibm-authentication-url:
+      url: 'file://auth.cfg'
+  api-key:
+    type: apiKey
+    description: 'Client identification'
+    in: header
+    name: X-IBM-Client-Id
+security:
+  - api-key: []
+    basic: []
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+  - application/xml
+  - text/xml
+produces:
+  - application/json
+  - application/xml
+  - text/xml
+  - application/javascript
+  - text/javascript
+paths:
+  /Widgets:
+    post:
+      tags:
+        - Widget
+      summary: Create a new instance of the model and persist it into the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            $ref: '#/definitions/Widget'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Widget'
+      deprecated: false
+    put:
+      tags:
+        - Widget
+      summary: Update an existing model instance or insert a new one into the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.upsert
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            $ref: '#/definitions/Widget'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Widget'
+      deprecated: false
+    get:
+      tags:
+        - Widget
+      summary: Find all instances of the model matched by filter from the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Widget'
+      deprecated: false
+  '/Widgets/{id}/exists':
+    get:
+      tags:
+        - Widget
+      summary: Check whether a model instance exists in the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: 'Widget.exists__get_Widgets_{id}_exists'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  '/Widgets/{id}':
+    head:
+      tags:
+        - Widget
+      summary: Check whether a model instance exists in the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: 'Widget.exists__head_Widgets_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+    get:
+      tags:
+        - Widget
+      summary: Find a model instance by id from the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: Filter defining fields and include
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Widget'
+      deprecated: false
+    delete:
+      tags:
+        - Widget
+      summary: Delete a model instance by id from the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+    put:
+      tags:
+        - Widget
+      summary: Update attributes for a model instance and persist it into the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.prototype.updateAttributes
+      parameters:
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            $ref: '#/definitions/Widget'
+        - name: id
+          in: path
+          description: PersistedModel id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Widget'
+      deprecated: false
+  /Widgets/findOne:
+    get:
+      tags:
+        - Widget
+      summary: Find first instance of the model matched by filter from the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.findOne
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Widget'
+      deprecated: false
+  /Widgets/update:
+    post:
+      tags:
+        - Widget
+      summary: Update instances of the model matched by where from the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.updateAll
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            $ref: '#/definitions/Widget'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            description: The number of instances updated
+            type: object
+      deprecated: false
+  /Widgets/count:
+    get:
+      tags:
+        - Widget
+      summary: Count instances of the model matched by where from the data source.
+      description: !<tag:yaml.org,2002:js/undefined> ''
+      operationId: Widget.count
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+definitions:
+  x-any:
+    properties: {}
+  Widget:
+    description: !<tag:yaml.org,2002:js/undefined> ''
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+        format: double
+      id:
+        type: number
+        format: double
+    required:
+      - name
+      - price
+    additionalProperties: false

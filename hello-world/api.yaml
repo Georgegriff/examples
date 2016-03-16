@@ -1,0 +1,29 @@
+basePath: "/"
+definitions:
+  message:
+    additionalProperties: false
+    properties:
+      text: string
+info:
+  title: "hello world"
+  version: "1.0.0"
+  x-ibm-name: "hello-world"
+paths:
+  /echo:
+    post:
+      description: "echo the posted message"
+      operationId: "echo"
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            items:
+              $ref: "#/definitions/message"
+            type: "array"
+schemes:
+  - "https"
+swagger: "2.0"
+x-ibm-configuration:
+  gateway: api-mesh-gateway
+  assembly:
+    $ref: "assembly.yaml"

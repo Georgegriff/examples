@@ -1,0 +1,5 @@
+response:
+  execute:
+    - set-variable:
+      - set: response.body
+        value: '$(request.body)'
